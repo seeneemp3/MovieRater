@@ -11,11 +11,12 @@ import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Builder
 public class User {
-    private int id;
+    private Long id;
     @Email(message = "Invalid email format.")
     @NonNull
     @NotBlank
@@ -27,6 +28,15 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
     private String name;
+    private Set<Long> friends;
+
+    public User(Long id, @NonNull String email, String login, LocalDate birthday, String name) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.birthday = birthday;
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

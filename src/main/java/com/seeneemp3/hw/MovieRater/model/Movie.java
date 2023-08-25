@@ -5,15 +5,19 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 public class Movie {
 
-    private int id;
+    private Long id;
     @NotBlank
+    @NonNull
     private String name;
     @Size(max = 200)
     private String description;
@@ -21,6 +25,7 @@ public class Movie {
     private LocalDate releaseDate;
     @Positive
     private long duration;
+    private Set<Long> likes;
 
     @Override
     public boolean equals(Object o) {
