@@ -9,12 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 public class MovieController {
     private MovieStorage movieStorage;
     private MovieService movieService;
@@ -24,14 +23,13 @@ public class MovieController {
         this.movieStorage = movieStorage;
     }
 
-    private HashMap<Long, Movie> movies = new HashMap<>();
     @GetMapping
-    public List<Movie> get(){
+    public List<Movie> getAll(){
         return movieStorage.getAll();
     }
 
     @GetMapping("/{id}")
-    public Movie getById(@PathVariable Long id){
+    public Movie getById(@PathVariable Long id) throws MovieValidationException {
         return movieStorage.getById(id);
     }
     @GetMapping("/popular")
@@ -51,16 +49,16 @@ public class MovieController {
         return movieStorage.update(movie);
     }
     @DeleteMapping("/{id}")
-    public Movie delete(@PathVariable Long id){
+    public Movie delete(@PathVariable Long id) throws MovieValidationException {
         return movieStorage.delete(id);
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public Long addLike(@PathVariable Long id, @PathVariable Long userId ){
+    public Long addLike(@PathVariable Long id, @PathVariable Long userId ) throws MovieValidationException {
         return movieService.addLike(id, userId);
     }
     @DeleteMapping("/{id}/like/{userId}")
-    public Long removeLike(@PathVariable Long id, @PathVariable Long userId ){
+    public Long removeLike(@PathVariable Long id, @PathVariable Long userId ) throws MovieValidationException {
         return movieService.removeLike(id, userId);
     }
 }

@@ -1,8 +1,8 @@
 package com.seeneemp3.hw.MovieRater.storage;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
+import com.seeneemp3.hw.MovieRater.exception.ValidationException;
 import com.seeneemp3.hw.MovieRater.model.User;
-import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 @Component
 public class InMemoryUserStorage implements UserStorage{
-    public Map<Long, User> users;
+    private Map<Long, User> users;
     private Long currentId;
 
 

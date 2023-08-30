@@ -2,7 +2,6 @@ package com.seeneemp3.hw.MovieRater.storage;
 
 import com.seeneemp3.hw.MovieRater.exception.MovieValidationException;
 import com.seeneemp3.hw.MovieRater.model.Movie;
-import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class InMemoryMovieStorage implements MovieStorage {
-    private HashMap<Long, Movie> movies = new HashMap<>();
+    private HashMap<Long, Movie> movies;
     private Long currentId;
 
     public InMemoryMovieStorage(){
@@ -27,6 +26,9 @@ public class InMemoryMovieStorage implements MovieStorage {
 
     @Override
     public Movie create(Movie movie) throws MovieValidationException {
+        if (movies.containsValue(movie)){
+            throw new MovieValidationException("Movie already exists");
+        }
         movie.setId(++currentId);
         movies.put(movie.getId(), movie);
 //        if(movies.containsValue(movie)){
@@ -40,10 +42,10 @@ public class InMemoryMovieStorage implements MovieStorage {
     @Override
     public Movie update(Movie movie) throws MovieValidationException {
         if(movie.getId() == null ){
-            throw new ValidationException("Wrong argument: id");
+            throw new MovieValidationException("Wrong argument: id");
         }
         if(!movies.containsKey(movie.getId())){
-            throw new ValidationException("No movie with this id");
+            throw new MovieValidationException("No movie with this id");
         }
         // if valid ...
         movies.put(movie.getId(), movie);
@@ -58,20 +60,20 @@ public class InMemoryMovieStorage implements MovieStorage {
     }
 
     @Override
-    public Movie getById(Long movieId) {
+    public Movie getById(Long movieId) throws MovieValidationException {
         if(!movies.containsKey(movieId)){
-            throw new ValidationException("No movie with this id");
+            throw new MovieValidationException("No movie with this id");
         }
         return movies.get(movieId);
     }
 
     @Override
-    public Movie delete(Long movieId) {
+    public Movie delete(Long movieId) throws MovieValidationException {
         if(movieId == null ){
-            throw new ValidationException("Wrong argument: id");
+            throw new MovieValidationException("Wrong argument: id");
         }
         if(!movies.containsKey(movieId)){
-            throw new ValidationException("No movie with this id");
+            throw new MovieValidationException("No movie with this id");
         }
         return movies.remove(movieId);
     }

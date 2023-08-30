@@ -1,7 +1,9 @@
 package com.seeneemp3.hw.MovieRater.controller;
 
 import com.seeneemp3.hw.MovieRater.exception.MovieNotFoundException;
+import com.seeneemp3.hw.MovieRater.exception.MovieValidationException;
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
+import com.seeneemp3.hw.MovieRater.exception.UserValidationException;
 import com.seeneemp3.hw.MovieRater.model.ErrorResponse;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
@@ -31,9 +33,16 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final ValidationException e) {
+    public ErrorResponse handleValidationException(final MovieValidationException e) {
         return new ErrorResponse(e.getMessage());
     }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationException(final UserValidationException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)

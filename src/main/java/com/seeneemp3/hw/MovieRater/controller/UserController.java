@@ -56,4 +56,15 @@ public class UserController {
         return userService.getFriends(id);
     }
 
+    @GetMapping("/{id}/friends/common/{friendId}")
+    public Set<Long> getCommon(@PathVariable Long id, @PathVariable Long friendId){
+        return userService.commonFriends(id,friendId);
+    }
+
+    @PostMapping("/{id}/friends/{friendId}/true")
+    public Long acceptFriend(@PathVariable Long id, @PathVariable Long friendId){
+        return userService.acceptFriend(id, friendId);
+    }
+
+
 }

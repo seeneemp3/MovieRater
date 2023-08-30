@@ -2,15 +2,14 @@ package com.seeneemp3.hw.MovieRater.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NonNull;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class Movie {
@@ -21,11 +20,24 @@ public class Movie {
     private String name;
     @Size(max = 200)
     private String description;
-    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate releaseDate;
     @Positive
     private long duration;
     private Set<Long> likes;
+    @NotNull
+    private Mpa mpa;
+    private Set<Genre> genres;
+
+    public Movie( Long id, @NotBlank @NonNull String name, String description, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate, long duration, Set<Long> likes, Mpa mpa, Set<Genre> genres) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.likes = likes;
+        this.mpa = mpa;
+        this.genres = genres;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -38,5 +50,15 @@ public class Movie {
     @Override
     public int hashCode() {
         return Objects.hash(name, description, releaseDate, duration);
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("name", name);
+        values.put("description", description);
+        values.put("release_Date", releaseDate);
+        values.put("duration", duration);
+        values.put("rating_id", mpa.getId());
+        return values;
     }
 }

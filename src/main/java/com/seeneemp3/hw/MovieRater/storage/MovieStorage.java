@@ -9,6 +9,6 @@ public interface MovieStorage {
     List<Movie> getAll();
     Movie create(Movie movie) throws MovieValidationException;
     Movie update(Movie movie) throws MovieValidationException;
-    Movie getById(Long movieId);
-    Movie delete(Long movieId);
+    Movie getById(Long movieId) throws MovieValidationException;
+    Movie delete(Long movieId) throws MovieValidationException;
 }
