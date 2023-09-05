@@ -1,4 +1,4 @@
-package com.seeneemp3.hw.MovieRater.storage;
+package com.seeneemp3.hw.MovieRater.storage.user;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
 import com.seeneemp3.hw.MovieRater.exception.UserValidationException;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Component
-public class InMemoryUserStorage implements UserStorage{
+public class InMemoryUserStorage implements UserStorage {
     private Map<Long, User> users;
     private Long currentId;
 
@@ -63,5 +63,15 @@ public class InMemoryUserStorage implements UserStorage{
         }
         return users.remove(userId);
 
+    }
+
+    @Override
+    public void addFriend(Long userId, Long friendId) {
+
+    }
+
+    @Override
+    public List<User> getCommon(Long userId, Long friendId) {
+        return null;
     }
 }

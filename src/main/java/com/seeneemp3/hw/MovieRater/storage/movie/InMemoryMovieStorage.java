@@ -1,7 +1,8 @@
-package com.seeneemp3.hw.MovieRater.storage;
+package com.seeneemp3.hw.MovieRater.storage.movie;
 
 import com.seeneemp3.hw.MovieRater.exception.MovieValidationException;
 import com.seeneemp3.hw.MovieRater.model.Movie;
+import com.seeneemp3.hw.MovieRater.storage.movie.MovieStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

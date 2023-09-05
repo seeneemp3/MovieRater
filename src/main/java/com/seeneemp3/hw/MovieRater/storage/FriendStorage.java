@@ -2,9 +2,8 @@ package com.seeneemp3.hw.MovieRater.storage;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
 import com.seeneemp3.hw.MovieRater.model.User;
-import lombok.AllArgsConstructor;
+import com.seeneemp3.hw.MovieRater.storage.user.UserStorage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

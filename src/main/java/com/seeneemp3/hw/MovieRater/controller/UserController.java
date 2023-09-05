@@ -3,7 +3,7 @@ package com.seeneemp3.hw.MovieRater.controller;
 import com.seeneemp3.hw.MovieRater.exception.UserAlreadyExistException;
 import com.seeneemp3.hw.MovieRater.model.User;
 import com.seeneemp3.hw.MovieRater.service.UserService;
-import com.seeneemp3.hw.MovieRater.storage.UserStorage;
+import com.seeneemp3.hw.MovieRater.storage.user.UserStorage;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

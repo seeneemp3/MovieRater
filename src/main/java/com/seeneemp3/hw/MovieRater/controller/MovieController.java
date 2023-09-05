@@ -3,7 +3,7 @@ package com.seeneemp3.hw.MovieRater.controller;
 import com.seeneemp3.hw.MovieRater.exception.MovieValidationException;
 import com.seeneemp3.hw.MovieRater.model.Movie;
 import com.seeneemp3.hw.MovieRater.service.MovieService;
-import com.seeneemp3.hw.MovieRater.storage.MovieStorage;
+import com.seeneemp3.hw.MovieRater.storage.movie.MovieStorage;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

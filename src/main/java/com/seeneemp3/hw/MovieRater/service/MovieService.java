@@ -2,7 +2,7 @@ package com.seeneemp3.hw.MovieRater.service;
 
 import com.seeneemp3.hw.MovieRater.exception.MovieValidationException;
 import com.seeneemp3.hw.MovieRater.model.Movie;
-import com.seeneemp3.hw.MovieRater.storage.MovieStorage;
+import com.seeneemp3.hw.MovieRater.storage.movie.MovieStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

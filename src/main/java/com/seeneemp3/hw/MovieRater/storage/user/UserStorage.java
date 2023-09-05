@@ -1,4 +1,4 @@
-package com.seeneemp3.hw.MovieRater.storage;
+package com.seeneemp3.hw.MovieRater.storage.user;
 
 import com.seeneemp3.hw.MovieRater.exception.UserAlreadyExistException;
 import com.seeneemp3.hw.MovieRater.model.User;
