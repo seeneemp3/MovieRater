@@ -25,10 +25,7 @@ public class MovieService {
         return userId;
     }
     public List<Movie> mostLiked(Long size){
-        return movieStorage.getAll().stream().sorted((Comparator.comparing((Movie m) -> {
-            if (m.getLikes() != null){
-                return m.getLikes().size();
-            }else return -1;
-        }).reversed())).limit(size).toList();
+        return movieStorage.getAll().stream().sorted((Comparator.comparing((Movie m) -> m.getLikes().size()
+        ).reversed())).limit(size).toList();
     }
 }

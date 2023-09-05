@@ -13,9 +13,6 @@ public class MovieRaterApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MovieRaterApplication.class, args);
-//		InMemoryUserStorage storage = new InMemoryUserStorage();
-//		storage.create(new User(0L, "", "aaaaa", LocalDate.now().minusMonths(87), "Michael" ));
-//		System.out.println(storage.users.get(1L));
 
 
 	}

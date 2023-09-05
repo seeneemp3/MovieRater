@@ -33,12 +33,12 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final MovieValidationException e) {
+    public ErrorResponse handleMovieValidationException(final MovieValidationException e) {
         return new ErrorResponse(e.getMessage());
     }
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final UserValidationException e) {
+    public ErrorResponse handleUserValidationException(final UserValidationException e) {
         return new ErrorResponse(e.getMessage());
     }
 

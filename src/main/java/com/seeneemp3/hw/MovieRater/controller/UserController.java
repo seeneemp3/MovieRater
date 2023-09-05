@@ -1,5 +1,6 @@
 package com.seeneemp3.hw.MovieRater.controller;
 
+import com.seeneemp3.hw.MovieRater.exception.UserAlreadyExistException;
 import com.seeneemp3.hw.MovieRater.model.User;
 import com.seeneemp3.hw.MovieRater.service.UserService;
 import com.seeneemp3.hw.MovieRater.storage.UserStorage;
@@ -14,6 +15,10 @@ import java.util.Set;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    //TODO: разделить статус дружбы
+    //TODO: сделать проверку на добавление дубликата
+    //TODO: прочтитать про @Qualifier
+    //TODO: посмотреть хорошую реализацию CRUD
     private UserStorage userStorage;
     private UserService userService;
     @Autowired
@@ -31,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User post(@Valid @RequestBody User user) {
+    public User post(@Valid @RequestBody User user) throws UserAlreadyExistException {
         return userStorage.create(user);
     }
 
@@ -40,7 +45,7 @@ public class UserController {
        return userStorage.update(user);
     }
     @DeleteMapping("/{id}")
-    public User deleteUser(Long id){
+    public User deleteUser(@PathVariable Long id){
        return userStorage.delete(id);
     }
     @PutMapping("/{id}/friends/{friendId}")
@@ -60,11 +65,4 @@ public class UserController {
     public Set<Long> getCommon(@PathVariable Long id, @PathVariable Long friendId){
         return userService.commonFriends(id,friendId);
     }
-
-    @PostMapping("/{id}/friends/{friendId}/true")
-    public Long acceptFriend(@PathVariable Long id, @PathVariable Long friendId){
-        return userService.acceptFriend(id, friendId);
-    }
-
-
 }

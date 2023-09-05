@@ -1,6 +1,7 @@
 package com.seeneemp3.hw.MovieRater.storage;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
+import com.seeneemp3.hw.MovieRater.exception.UserValidationException;
 import com.seeneemp3.hw.MovieRater.exception.ValidationException;
 import com.seeneemp3.hw.MovieRater.model.User;
 import org.springframework.stereotype.Component;
@@ -34,13 +35,12 @@ public class InMemoryUserStorage implements UserStorage{
     @Override
     public User update(User user) {
         if (user.getId() == null) {
-            throw new ValidationException("Wrong argument: id");
+            throw new UserValidationException("Wrong argument: id");
         }
         if (!users.containsKey(user.getId())) {
             throw new UserNotFoundException("No user with id " + user.getId() + " was founded");
         }
-        ///if (isValid(user)) {
-            users.put(user.getId(), user);
+        users.put(user.getId(), user);
 
         return user;
     }

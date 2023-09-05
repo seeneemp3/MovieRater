@@ -22,15 +22,33 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
     private String name;
-    private Map<Long, Boolean> friendStatus = new HashMap<>();
+    private Set<Long> friends;
+    //private Map<Long, Boolean> friendStatus;
 
-    public User(Long id, @NonNull String email, String login, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthday, String name) {
+
+//    public User(Long id, @NonNull String email, String login, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthday, String name) {
+//        this.id = id;
+//        this.email = email;
+//        this.login = login;
+//        this.birthday = birthday;
+//        if((name == null) || (name.isEmpty()) || (name.isBlank())){this.name = login;
+//        }else this.name = name;
+//    }
+    public User(){
+    }
+    public User(Long id, String email, String login, String name, LocalDate birthday, Set<Long> friends) {
         this.id = id;
         this.email = email;
         this.login = login;
+        this.name = name;
+        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
+            this.name = login;
+        }
         this.birthday = birthday;
-        if((name == null) || (name.isEmpty()) || (name.isBlank())){this.name = login;
-        }else this.name = name;
+        this.friends = friends;
+        if (friends == null) {
+            this.friends = new HashSet<>();
+        }
     }
 
     @Override

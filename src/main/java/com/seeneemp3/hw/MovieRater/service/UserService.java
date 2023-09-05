@@ -23,32 +23,25 @@ public class UserService {
 
     public Long addFriend(Long userId, Long friendId) {
         validate(userId,friendId);
-        userStorage.getById(userId).getFriendStatus().put(friendId, false);
-        userStorage.getById(friendId).getFriendStatus().put(userId, false);
+        userStorage.getById(userId).getFriends().add(friendId);
+        userStorage.getById(friendId).getFriends().add(userId);
         return friendId;
     }
     public Long deleteFriend(Long userId, Long friendId) {
         validate(userId,friendId);
-        userStorage.getById(userId).getFriendStatus().remove(friendId);
-        userStorage.getById(friendId).getFriendStatus().remove(userId);
+        userStorage.getById(userId).getFriends().remove(friendId);
+        userStorage.getById(friendId).getFriends().remove(userId);
         return friendId;
     }
     public Set<Long> getFriends(Long userId) {
-       return userStorage.getById(userId).getFriendStatus().entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toSet());
+       return userStorage.getById(userId).getFriends();
     }
     public Set<Long> commonFriends(Long userId, Long friendId){
-        var set1 = userStorage.getById(userId).getFriendStatus().entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toCollection(HashSet::new));
-        var set2 = userStorage.getById(friendId).getFriendStatus().entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toCollection(HashSet::new));
+        var set1 = userStorage.getById(userId).getFriends();
+        var set2 = userStorage.getById(friendId).getFriends();
         return set1.stream().filter(set2::contains).collect(Collectors.toSet());
     }
-    public Long acceptFriend(Long userId, Long friendId){
-        validate(userId,friendId);
-        if ( userStorage.getById(userId).getFriendStatus().containsKey(friendId)){
-            userStorage.getById(userId).getFriendStatus().put(friendId, true);
-            userStorage.getById(friendId).getFriendStatus().put(userId, true);
-        }
-        return friendId;
-    }
+
     private boolean validate(Long userId, Long friendId){
         User u = userStorage.getById(userId);
         User friend = userStorage.getById(friendId);
