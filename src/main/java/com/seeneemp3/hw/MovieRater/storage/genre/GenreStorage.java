@@ -34,7 +34,7 @@ public class GenreStorage {
                 .orElseThrow(() -> new GenreNotFoundException("Жанр с ID=" + id + " не найден!"));
     }
     public void delete(Movie m){
-        jdbcTemplate.update("DELETE FROM genres WHERE movie_id = ?", m.getId());
+        jdbcTemplate.update("DELETE FROM movie_genres WHERE movie_id = ?", m.getId());
     }
     public void add(Movie m){
         if (m.getGenres() != null){

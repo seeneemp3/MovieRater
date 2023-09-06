@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @Data
+@NoArgsConstructor
 public class User {
     private Long id;
     @Email(message = "Invalid email format.")
@@ -22,20 +24,9 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
     private String name;
-    private Set<Long> friends;
-    //private Map<Long, Boolean> friendStatus;
+    private Set<Long> friends = new HashSet<>();
 
 
-//    public User(Long id, @NonNull String email, String login, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthday, String name) {
-//        this.id = id;
-//        this.email = email;
-//        this.login = login;
-//        this.birthday = birthday;
-//        if((name == null) || (name.isEmpty()) || (name.isBlank())){this.name = login;
-//        }else this.name = name;
-//    }
-    public User(){
-    }
     public User(Long id, String email, String login, String name, LocalDate birthday, Set<Long> friends) {
         this.id = id;
         this.email = email;
@@ -46,6 +37,18 @@ public class User {
         }
         this.birthday = birthday;
         this.friends = friends;
+        if (friends == null) {
+            this.friends = new HashSet<>();
+        }
+    }
+    public User(String login, String name, String email, LocalDate birthday) {
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
+            this.name = login;
+        }
+        this.birthday = birthday;
         if (friends == null) {
             this.friends = new HashSet<>();
         }

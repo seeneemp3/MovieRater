@@ -37,16 +37,16 @@ public class LikeStorage {
         jdbcTemplate.update(sql, movieId, userId);
     }
 
-    public List<Movie> getPopular(@Positive Integer count){
+    public List<Long> getPopular(@Positive Integer count){
         String sql = """
-                SELECT * FROM movies
-                JOIN movie_likes l
+                SELECT id FROM movies
+                JOIN movie_likes AS l
                 ON movie_id = l.movie_id
-                GROUP BY movie_id
+                GROUP BY movies.id
                 ORDER BY COUNT(l.user_id) DESC
                 LIMIT ?
                 """;
-       return jdbcTemplate.query(sql, movieMapper, count);
+       return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("id"), count);
     }
 
     public List<Long> getLikes(Long movieId){

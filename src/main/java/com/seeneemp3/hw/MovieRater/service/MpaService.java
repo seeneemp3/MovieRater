@@ -19,7 +19,7 @@ public class MpaService {
         this.mpaStorage = mpaStorage;
     }
 
-    public Collection<Mpa> getAllMpa() {
+    public Collection<Mpa> getAll() {
         return mpaStorage.getAll().stream()
                 .sorted(Comparator.comparing(Mpa::getId))
                 .collect(Collectors.toList());

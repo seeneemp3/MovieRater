@@ -34,7 +34,7 @@ public class MovieController {
         return movieStorage.getById(id);
     }
     @GetMapping("/popular")
-    public List<Movie> getTopList(@RequestParam(name = "size", defaultValue = "10") Integer size) {
+    public List<Long> getTopList(@RequestParam(name = "size", defaultValue = "10") Integer size) {
         return movieService.mostLiked(size);
     }
 

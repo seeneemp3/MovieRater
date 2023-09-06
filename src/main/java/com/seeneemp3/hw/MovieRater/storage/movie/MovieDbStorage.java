@@ -67,11 +67,7 @@ public class MovieDbStorage implements MovieStorage {
         if (movie == null) {
             throw new ValidationException("Передан пустой аргумент!");
         }
-        String sqlQuery = """
-                UPDATE films
-                SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ?
-                WHERE id = ?"
-                """;
+        String sqlQuery = "UPDATE movies SET name = ?, description = ?, release_date = ?, duration = ?, rating_id = ? WHERE id = ?";
         if (jdbcTemplate.update(sqlQuery,
                 movie.getName(),
                 movie.getDescription(),

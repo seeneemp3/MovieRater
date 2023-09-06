@@ -24,7 +24,7 @@ public class MovieService {
         this.movieStorage = movieStorage;
     }
     public Long addLike(Long movieId, Long userId) {
-        movieStorage.getById(movieId).getLikes().add(userId);
+        likeStorage.addLike(movieId, userId);
         return userId;
     }
     public Long removeLike(Long movieId, Long userId) {
@@ -36,7 +36,7 @@ public class MovieService {
         }else throw new MovieNotFoundException("Фильм c ID=" + movieId + " не найден!");
         return userId;
     }
-    public List<Movie> mostLiked(@Positive Integer size){
+    public List<Long> mostLiked(Integer size){
         return likeStorage.getPopular(size);
     }
 }

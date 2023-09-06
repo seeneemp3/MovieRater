@@ -25,7 +25,7 @@ public class Movie {
     private LocalDate releaseDate;
     @Positive
     private long duration;
-    private Set<Long> likes;
+    private Set<Long> likes = new HashSet<>();
     @NotNull
     private Mpa mpa;
     private Set<Genre> genres;

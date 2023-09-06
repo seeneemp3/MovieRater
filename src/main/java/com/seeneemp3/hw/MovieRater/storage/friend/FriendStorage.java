@@ -2,6 +2,7 @@ package com.seeneemp3.hw.MovieRater.storage.friend;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
 import com.seeneemp3.hw.MovieRater.model.User;
+import com.seeneemp3.hw.MovieRater.storage.user.UserMapper;
 import com.seeneemp3.hw.MovieRater.storage.user.UserStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -17,13 +18,29 @@ import java.util.Objects;
 public class FriendStorage {
     private JdbcTemplate jdbcTemplate;
     private UserStorage userStorage;
-    BeanPropertyRowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
 
     @Autowired
     public FriendStorage(JdbcTemplate jdbcTemplate, UserStorage userStorage) {
         this.jdbcTemplate = jdbcTemplate;
         this.userStorage = userStorage;
     }
+
+    public List<Long> getFriends(Long userId) {
+        User user = userStorage.getById(userId);
+        if (user != null) {
+            String sql = """
+                    SELECT friend_id
+                    FROM friends
+                    INNER JOIN users ON friends.friend_id = users.id
+                    WHERE friends.user_id = ?
+                    """;
+            return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("friend_id"), userId);
+        } else {
+            return null;
+        }
+    }
+
+
     public void addFriend(Long userId, Long friendId){
         validate(userId,friendId);
         User friend = userStorage.getById(friendId);
@@ -38,7 +55,7 @@ public class FriendStorage {
                     status = ?
                 WHERE user_id = ?
                 AND friend_id = ?""";
-            jdbcTemplate.update(sql, userMapper, status);
+            jdbcTemplate.update(sql, friendId, userId, true, friendId, userId);
         }
         String sql = "INSERT INTO friends (user_id, friend_id, status) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, userId, friendId, status);
@@ -58,41 +75,20 @@ public class FriendStorage {
         }
     }
 
-    public List<User> getCommon(Long userId, Long friendId){
+    public List<Long> getCommon(Long userId, Long friendId){
         validate(userId,friendId);
        return jdbcTemplate.query(
                 """
-                SELECT *
+                SELECT id
                 FROM users
                 WHERE id IN (SELECT f1.friend_id AS common
                 FROM friends f1
                 JOIN friends f2 ON f1.friend_id = f2.friend_id
                 WHERE f1.user_id = ?
                 AND f2.user_id = ?);"""
-                , userMapper, userId, friendId);
+                , (rs, rowNum) -> rs.getLong("id"), userId, friendId);
     }
-    public List<User> getFriends(Long userId) {
-        User user = userStorage.getById(userId);
-        if (user != null) {
-            String sql = """
-                    SELECT friend_id, email, login, name, birthday
-                    FROM friends
-                    INNER JOIN users ON friends.friend_id = users.id
-                    WHERE friends.user_id = ?
-                    """;
-            return jdbcTemplate.query(sql, (rs, rowNum) -> new User(
-                            rs.getLong("friend_id"),
-                            rs.getString("email"),
-                            rs.getString("login"),
-                            rs.getString("name"),
-                            rs.getDate("birthday").toLocalDate(),
-                            null),
-                    userId
-            );
-        } else {
-            return null;
-        }
-    }
+
 
 
 

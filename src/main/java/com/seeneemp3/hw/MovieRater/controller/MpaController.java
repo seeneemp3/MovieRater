@@ -24,13 +24,13 @@ public class MpaController {
     }
 
     @GetMapping
-    public Collection<Mpa> getAllMpa() {
+    public Collection<Mpa> getAll() {
         log.info("Получен GET-запрос к эндпоинту: '/mpa' на получение всех рейтингов");
-        return mpaService.getAllMpa();
+        return mpaService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Mpa getMpaById(@PathVariable Integer id) {
+    public Mpa getById(@PathVariable Integer id) {
         log.info("Получен GET-запрос к эндпоинту: '/mpa' на получение рейтинга с ID={}", id);
         return mpaService.getById(id);
     }

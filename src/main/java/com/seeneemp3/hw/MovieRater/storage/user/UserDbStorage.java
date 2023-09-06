@@ -6,7 +6,6 @@ import com.seeneemp3.hw.MovieRater.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
@@ -20,11 +19,12 @@ import java.util.Objects;
 public class UserDbStorage implements UserStorage {
 //TODO: пересмотреть метод валидейт чтобы возвращал юзера или пару юзер-юзер
     private final JdbcTemplate jdbcTemplate;
-    private final BeanPropertyRowMapper<User> userMapper = new BeanPropertyRowMapper<>(User.class);
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserDbStorage(JdbcTemplate jdbcTemplate) {
+    public UserDbStorage(JdbcTemplate jdbcTemplate, UserMapper userMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -34,6 +34,9 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User create(User user) {
+        if ((user.getName() == null) || (user.getName().isEmpty()) || (user.getName().isBlank())) {
+            user.setName(user.getLogin());
+        }
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
@@ -50,7 +53,7 @@ public class UserDbStorage implements UserStorage {
             String sqlQuery = "UPDATE users SET " +
                               "email = ?, login = ?, name = ?, birthday = ? " +
                               "WHERE id = ?";
-            jdbcTemplate.update(sqlQuery, userMapper, user.getId());
+            jdbcTemplate.update(sqlQuery, user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getId());
             log.info("Пользователь с ID={} успешно обновлен", user.getId());
             return user;
         } else {

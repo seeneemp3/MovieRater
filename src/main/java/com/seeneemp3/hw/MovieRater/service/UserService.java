@@ -31,13 +31,10 @@ public class UserService {
         friendStorage.deleteFriend(userId, friendId);
         return friendId;
     }
-    public Set<User> getFriends(Long userId) {
+    public Set<Long> getFriends(Long userId) {
        return new HashSet<>(friendStorage.getFriends(userId));
     }
-    public Set<User> commonFriends(Long userId, Long friendId){
-//        var set1 = userStorage.getById(userId).getFriends();
-//        var set2 = userStorage.getById(friendId).getFriends();
-//        return set1.stream().filter(set2::contains).collect(Collectors.toSet());
+    public Set<Long> commonFriends(Long userId, Long friendId){
         return new HashSet<>(friendStorage.getCommon(userId, friendId));
     }
 

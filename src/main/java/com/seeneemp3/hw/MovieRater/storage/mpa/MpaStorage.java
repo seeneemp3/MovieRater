@@ -3,6 +3,7 @@ package com.seeneemp3.hw.MovieRater.storage.mpa;
 import com.seeneemp3.hw.MovieRater.exception.MpaNotFoundException;
 import com.seeneemp3.hw.MovieRater.exception.ValidationException;
 import com.seeneemp3.hw.MovieRater.model.Mpa;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
