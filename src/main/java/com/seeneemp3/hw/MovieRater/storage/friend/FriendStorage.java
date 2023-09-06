@@ -1,4 +1,4 @@
-package com.seeneemp3.hw.MovieRater.storage;
+package com.seeneemp3.hw.MovieRater.storage.friend;
 
 import com.seeneemp3.hw.MovieRater.exception.UserNotFoundException;
 import com.seeneemp3.hw.MovieRater.model.User;
@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 @Primary
@@ -27,6 +28,7 @@ public class FriendStorage {
         validate(userId,friendId);
         User friend = userStorage.getById(friendId);
         boolean status = false;
+        if(friend.getFriends() == null) { friend.setFriends(new HashSet<>());};
         if (friend.getFriends().contains(userId)) {
             status = true;
             String sql = """
@@ -39,24 +41,58 @@ public class FriendStorage {
             jdbcTemplate.update(sql, userMapper, status);
         }
         String sql = "INSERT INTO friends (user_id, friend_id, status) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, userMapper, status);
+        jdbcTemplate.update(sql, userId, friendId, status);
+    }
+    public void deleteFriend(Long userId, Long friendId) {
+        User user = userStorage.getById(userId);
+        User friend = userStorage.getById(friendId);
+        if ((user != null) && (friend != null)) {
+            String sql = "DELETE FROM friends WHERE user_id = ? AND friend_id = ?";
+            jdbcTemplate.update(sql, userId, friendId);
+
+            if (friend.getFriends().contains(userId)) {
+                sql = "UPDATE friends SET user_id = ? AND friend_id = ? AND status = ? " +
+                        "WHERE user_id = ? AND friend_id = ?";
+                jdbcTemplate.update(sql, friendId, userId, false, friendId, userId);
+            }
+        }
     }
 
     public List<User> getCommon(Long userId, Long friendId){
         validate(userId,friendId);
-        User friend = userStorage.getById(friendId);
        return jdbcTemplate.query(
                 """
                 SELECT *
                 FROM users
-                WHERE id IN (SELECT f1.friendId AS common
+                WHERE id IN (SELECT f1.friend_id AS common
                 FROM friends f1
-                JOIN friends f2 ON f1.friendId = f2.friendId
-                WHERE f1.userId = ?
-                AND f2.userId = ?);"""
+                JOIN friends f2 ON f1.friend_id = f2.friend_id
+                WHERE f1.user_id = ?
+                AND f2.user_id = ?);"""
                 , userMapper, userId, friendId);
     }
-
+    public List<User> getFriends(Long userId) {
+        User user = userStorage.getById(userId);
+        if (user != null) {
+            String sql = """
+                    SELECT friend_id, email, login, name, birthday
+                    FROM friends
+                    INNER JOIN users ON friends.friend_id = users.id
+                    WHERE friends.user_id = ?
+                    """;
+            return jdbcTemplate.query(sql, (rs, rowNum) -> new User(
+                            rs.getLong("friend_id"),
+                            rs.getString("email"),
+                            rs.getString("login"),
+                            rs.getString("name"),
+                            rs.getDate("birthday").toLocalDate(),
+                            null),
+                    userId
+            );
+        } else {
+            return null;
+        }
+    }
 
 
 

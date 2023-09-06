@@ -57,12 +57,12 @@ public class UserController {
         return userService.deleteFriend(id,friendId);
     }
     @GetMapping("/{id}/friends")
-    public Set<Long> getFriends(@PathVariable Long id) {
+    public Set<User> getFriends(@PathVariable Long id) {
         return userService.getFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{friendId}")
-    public Set<Long> getCommon(@PathVariable Long id, @PathVariable Long friendId){
+    public Set<User> getCommon(@PathVariable Long id, @PathVariable Long friendId){
         return userService.commonFriends(id,friendId);
     }
 }

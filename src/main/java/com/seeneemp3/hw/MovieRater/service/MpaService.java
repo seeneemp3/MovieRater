@@ -25,7 +25,7 @@ public class MpaService {
                 .collect(Collectors.toList());
     }
 
-    public Mpa getMpaById(Integer id) {
+    public Mpa getById(Integer id) {
         return mpaStorage.getById(id);
     }
 

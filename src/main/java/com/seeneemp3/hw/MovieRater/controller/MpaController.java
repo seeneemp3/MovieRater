@@ -32,6 +32,6 @@ public class MpaController {
     @GetMapping("/{id}")
     public Mpa getMpaById(@PathVariable Integer id) {
         log.info("Получен GET-запрос к эндпоинту: '/mpa' на получение рейтинга с ID={}", id);
-        return mpaService.getMpaById(id);
+        return mpaService.getById(id);
     }
 }

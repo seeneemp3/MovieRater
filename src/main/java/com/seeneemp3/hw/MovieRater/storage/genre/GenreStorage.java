@@ -48,7 +48,8 @@ public class GenreStorage {
         validate(movieId);
         String sql = "SELECT genre_id, name FROM movie_genres" +
                 " INNER JOIN genres ON genre_id = id WHERE movie_id = ?";
-        return jdbcTemplate.query(sql, genreMapper);
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Genre(
+                rs.getInt("genre_id"), rs.getString("name")), movieId);
     }
 
     private <T extends Number> void validate(T id){

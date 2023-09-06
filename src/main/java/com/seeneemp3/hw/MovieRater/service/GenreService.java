@@ -26,7 +26,7 @@ public class GenreService {
                 .collect(Collectors.toList());
     }
 
-    public Genre getGenreById(Integer id) {
+    public Genre getById(Integer id) {
         return genreStorage.getById(id);
     }
 
@@ -35,7 +35,7 @@ public class GenreService {
         genreStorage.add(m);
     }
 
-    public Set<Genre> getFilmGenres(Long filmId) {
+    public Set<Genre> getMovieGenres(Long filmId) {
         return new HashSet<>(genreStorage.getMovieGenres(filmId));
     }
 }
