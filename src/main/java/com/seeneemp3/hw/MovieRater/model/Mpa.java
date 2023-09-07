@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class Mpa {
     private Integer id;
     private String name;
-    private String description;
 }
