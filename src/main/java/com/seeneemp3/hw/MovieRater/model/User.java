@@ -6,7 +6,6 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -20,7 +19,7 @@ public class User {
     @Email
     private String email;
     @NotBlank
-    @Pattern(regexp = "\\S*$")    // логин не содержит пробелов
+    @Pattern(regexp = "\\S*$")
     private String login;
     private String name;
     @PastOrPresent
