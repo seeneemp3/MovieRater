@@ -23,4 +23,5 @@ The application provides a REST API for performing CRUD (Create, Read, Update, D
 
 ## Database Entity Relationship Diagram (ERD)
 
-![Database Entity Relationship Diagram (ERD)](DB ER.png)
+<img width="672" alt="DB ER" src="https://github.com/seeneemp3/MovieRater/assets/97444217/5be773f3-4f23-4391-a41f-da75371e0f70">
+
