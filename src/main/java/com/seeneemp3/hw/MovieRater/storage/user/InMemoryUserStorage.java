@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Component
 public class InMemoryUserStorage implements UserStorage {
-    private Map<Long, User> users;
+    private final Map<Long, User> users;
     private Long currentId;
 
 
@@ -20,6 +21,7 @@ public class InMemoryUserStorage implements UserStorage {
         currentId = 0L;
         users = new HashMap<>();
     }
+
     @Override
     public List<User> getAll() {
         return new ArrayList<>(users.values());

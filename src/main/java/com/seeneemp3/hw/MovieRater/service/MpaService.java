@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class MpaService {
 
-    private MpaStorage mpaStorage;
+    private final MpaStorage mpaStorage;
 
     @Autowired
     public MpaService(MpaStorage mpaStorage) {
@@ -28,7 +28,4 @@ public class MpaService {
     public Mpa getById(Integer id) {
         return mpaStorage.getById(id);
     }
-
-
-
 }

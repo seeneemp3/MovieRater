@@ -30,7 +30,7 @@ public class Movie {
     private Mpa mpa;
     private Set<Genre> genres;
 
-    public Movie( Long id, @NotBlank @NonNull String name, String description, @JsonFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate, long duration, Set<Long> likes, Mpa mpa, Set<Genre> genres) {
+    public Movie( Long id, @NotBlank @NonNull String name, String description, LocalDate releaseDate, long duration, Set<Long> likes, Mpa mpa, Set<Genre> genres) {
         this.id = id;
         this.name = name;
         this.description = description;

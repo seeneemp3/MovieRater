@@ -1,8 +1,9 @@
 package com.seeneemp3.hw.MovieRater.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.*;
-import lombok.Builder;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -41,18 +42,6 @@ public class User {
             this.friends = new HashSet<>();
         }
     }
-    public User(String login, String name, String email, LocalDate birthday) {
-        this.email = email;
-        this.login = login;
-        this.name = name;
-        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
-            this.name = login;
-        }
-        this.birthday = birthday;
-        if (friends == null) {
-            this.friends = new HashSet<>();
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -66,6 +55,7 @@ public class User {
     public int hashCode() {
         return Objects.hash(email, login, birthday, name);
     }
+
     public Map<String, Object> toMap() {
         Map<String, Object> values = new HashMap<>();
         values.put("email", email);

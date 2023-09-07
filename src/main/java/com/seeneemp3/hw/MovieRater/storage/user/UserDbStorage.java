@@ -17,7 +17,7 @@ import java.util.Objects;
 @Primary
 @Component("userDbStorage")
 public class UserDbStorage implements UserStorage {
-//TODO: пересмотреть метод валидейт чтобы возвращал юзера или пару юзер-юзер
+    //TODO: пересмотреть метод валидейт чтобы возвращал юзера или пару юзер-юзер
     private final JdbcTemplate jdbcTemplate;
     private final UserMapper userMapper;
 
@@ -42,7 +42,7 @@ public class UserDbStorage implements UserStorage {
                 .usingGeneratedKeyColumns("id");
         Long userId = simpleJdbcInsert.executeAndReturnKey(user.toMap()).longValue();
         user.setId(userId);
-        log.info("Добавлен новый пользователь с ID={}", user.getId());
+        log.info("Added a new user with ID={}", user.getId());
         return user;
     }
 
@@ -51,13 +51,13 @@ public class UserDbStorage implements UserStorage {
         validate(user.getId());
         if (getById(user.getId()) != null) {
             String sqlQuery = "UPDATE users SET " +
-                              "email = ?, login = ?, name = ?, birthday = ? " +
-                              "WHERE id = ?";
+                    "email = ?, login = ?, name = ?, birthday = ? " +
+                    "WHERE id = ?";
             jdbcTemplate.update(sqlQuery, user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(), user.getId());
-            log.info("Пользователь с ID={} успешно обновлен", user.getId());
+            log.info("User with ID={} has been successfully updated", user.getId());
             return user;
         } else {
-            throw new UserNotFoundException("Пользователь с ID=" + user.getId() + " не найден!");
+            throw new UserNotFoundException("User with ID=" + user.getId() + " not found!");
         }
     }
 
@@ -65,9 +65,9 @@ public class UserDbStorage implements UserStorage {
     public User getById(Long userId) {
         validate(userId);
         return jdbcTemplate.query("SELECT * FROM users WHERE id = ?", userMapper, userId)
-                      .stream()
-                      .findAny()
-                      .orElseThrow(() ->  new UserNotFoundException("Пользователь с ID=" + userId + " не найден!"));
+                .stream()
+                .findAny()
+                .orElseThrow(() -> new UserNotFoundException("User with ID=" + userId + " not found!"));
     }
 
     @Override
@@ -75,50 +75,54 @@ public class UserDbStorage implements UserStorage {
         validate(userId);
         User user = getById(userId);
         int res = jdbcTemplate.update("DELETE FROM users WHERE id = ?", userId);
-        if ( res == 0){
-            throw new UserNotFoundException("Пользователь с ID=" + userId + " не найден!");
+        if (res == 0) {
+            throw new UserNotFoundException("User with ID=" + userId + " not found!");
         }
-        log.info("Пользователь с ID={} успешно удален", user.getId());
+        log.info("User with ID={} has been successfully deleted", user.getId());
         return user;
     }
 
-    public void addFriend(Long userId, Long friendId){
-        validate(userId,friendId);
+    public void addFriend(Long userId, Long friendId) {
+        validate(userId, friendId);
         User friend = getById(friendId);
         boolean status = false;
         if (friend.getFriends().contains(userId)) {
             status = true;
             String sql = """
-                UPDATE friends
-                SET user_id = ?,
-                    friend_id = ?,
-                    status = ?
-                WHERE user_id = ?
-                AND friend_id = ?""";
+                    UPDATE friends
+                    SET user_id = ?,
+                        friend_id = ?,
+                        status = ?
+                    WHERE user_id = ?
+                    AND friend_id = ?""";
             jdbcTemplate.update(sql, userMapper, status);
         }
         String sql = "INSERT INTO friends (user_id, friend_id, status) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, userMapper, status);
+        log.info("Adding friend with ID {} to user with ID {}", friendId, userId);
     }
 
-    public List<User> getCommon(Long userId, Long friendId){
-        validate(userId,friendId);
+    public List<User> getCommon(Long userId, Long friendId) {
+        validate(userId, friendId);
         return jdbcTemplate.query(
                 """
-                SELECT *
-                FROM users
-                WHERE id IN (SELECT f1.friendId AS common
-                FROM friends f1
-                JOIN friends f2 ON f1.friendId = f2.friendId
-                WHERE f1.userId = ?
-                AND f2.userId = ?);"""
+                        SELECT *
+                        FROM users
+                        WHERE id IN (SELECT f1.friendId AS common
+                        FROM friends f1
+                        JOIN friends f2 ON f1.friendId = f2.friendId
+                        WHERE f1.userId = ?
+                        AND f2.userId = ?);"""
                 , userMapper, userId, friendId);
     }
 
-    private void validate(Long userId){
-        if (userId == null) {throw new UserValidationException("Передан пустой аргумент!");}
+    private void validate(Long userId) {
+        if (userId == null) {
+            throw new UserValidationException("Empty argument passed!");
+        }
     }
-    private void validate(Long userId, Long friendId){
+
+    private void validate(Long userId, Long friendId) {
         User u = getById(userId);
         User friend = getById(friendId);
         if (Objects.equals(userId, friendId) || u == null || friend == null) {

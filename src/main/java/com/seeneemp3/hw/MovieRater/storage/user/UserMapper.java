@@ -1,7 +1,6 @@
 package com.seeneemp3.hw.MovieRater.storage.user;
 
 import com.seeneemp3.hw.MovieRater.model.User;
-import com.seeneemp3.hw.MovieRater.storage.friend.FriendStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,18 +14,20 @@ import java.util.List;
 @Component
 public class UserMapper implements RowMapper<User> {
     JdbcTemplate jdbcTemplate;
+
     @Autowired
     public UserMapper(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     public List<Long> getFriends(Long userId) {
-            String sql = """
-                    SELECT friend_id
-                    FROM friends
-                    INNER JOIN users ON friends.friend_id = users.id
-                    WHERE friends.user_id = ?
-                    """;
-            return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("friend_id"), userId);
+        String sql = """
+                SELECT friend_id
+                FROM friends
+                INNER JOIN users ON friends.friend_id = users.id
+                WHERE friends.user_id = ?
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("friend_id"), userId);
     }
 
     @Override

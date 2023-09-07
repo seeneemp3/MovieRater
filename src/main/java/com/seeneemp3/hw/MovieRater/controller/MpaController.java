@@ -16,7 +16,7 @@ import java.util.Collection;
 @Slf4j
 public class MpaController {
 
-    private MpaService mpaService;
+    private final MpaService mpaService;
 
     @Autowired
     public MpaController(MpaService mpaService) {
@@ -25,13 +25,13 @@ public class MpaController {
 
     @GetMapping
     public Collection<Mpa> getAll() {
-        log.info("Получен GET-запрос к эндпоинту: '/mpa' на получение всех рейтингов");
+        log.info("Received a GET request to the endpoint: '/mpa' to retrieve all ratings");
         return mpaService.getAll();
     }
 
     @GetMapping("/{id}")
     public Mpa getById(@PathVariable Integer id) {
-        log.info("Получен GET-запрос к эндпоинту: '/mpa' на получение рейтинга с ID={}", id);
+        log.info("Received a GET request to the endpoint: '/mpa' to retrieve a rating with ID={}", id);
         return mpaService.getById(id);
     }
 }

@@ -3,7 +3,6 @@ package com.seeneemp3.hw.MovieRater.storage.mpa;
 import com.seeneemp3.hw.MovieRater.exception.MpaNotFoundException;
 import com.seeneemp3.hw.MovieRater.exception.ValidationException;
 import com.seeneemp3.hw.MovieRater.model.Mpa;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +29,7 @@ public class MpaStorage {
        return jdbcTemplate.query("SELECT * FROM ratings_mpa WHERE id = ?", mpaMapper, id)
                 .stream()
                 .findAny()
-                .orElseThrow(() -> new MpaNotFoundException("Рейтинг с ID=" + id + " не найден!"));
+                .orElseThrow(() -> new MpaNotFoundException("Rating with ID=" + id + " not found!"));
     }
 
 
@@ -38,7 +37,7 @@ public class MpaStorage {
 
     private <T extends Number> void validate(T id){
         if (id == null) {
-            throw new ValidationException("Передан пустой аргумент!");
+            throw new ValidationException("Empty argument passed!");
         }
     }
 }

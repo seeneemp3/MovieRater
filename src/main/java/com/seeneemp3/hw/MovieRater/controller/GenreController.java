@@ -15,7 +15,7 @@ import java.util.Collection;
 @RequestMapping("/genres")
 @Slf4j
 public class GenreController {
-    private GenreService genreService;
+    private final GenreService genreService;
 
     @Autowired
     public GenreController(GenreService genreService) {
@@ -23,13 +23,14 @@ public class GenreController {
     }
 
     @GetMapping
-    public Collection<Genre> getAll(){
-        log.info("Получен GET-запрос к эндпоинту: '/genres' на получение всех жанров");
+    public Collection<Genre> getAll() {
+        log.info("Received a GET request to the endpoint: '/genres' to retrieve all genres.");
         return genreService.getAll();
     }
+
     @GetMapping("/{id}")
-    public Genre getById(@PathVariable Integer id){
-        log.info("Получен GET-запрос к эндпоинту: '/genres' на получение жанра с ID={}", id);
+    public Genre getById(@PathVariable Integer id) {
+        log.info("Received a GET request to the endpoint: '/genres' to retrieve a genre with ID={}", id);
         return genreService.getById(id);
     }
 }

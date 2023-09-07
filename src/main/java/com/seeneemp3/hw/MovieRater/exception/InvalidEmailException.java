@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class InvalidEmailException extends RuntimeException{
-    private String msg;
     public InvalidEmailException(String msg){
         super(msg);
         log.error(msg);

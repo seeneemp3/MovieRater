@@ -6,19 +6,21 @@ import com.seeneemp3.hw.MovieRater.storage.genre.GenreStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
-    private GenreStorage genreStorage;
+    private final GenreStorage genreStorage;
+
     @Autowired
     public GenreService(GenreStorage genreStorage) {
         this.genreStorage = genreStorage;
     }
+
     public Collection<Genre> getAll() {
         return genreStorage.getAll()
                 .stream()
