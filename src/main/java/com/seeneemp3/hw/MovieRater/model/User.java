@@ -4,29 +4,28 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.*;
 
+
+
 @Data
-@NoArgsConstructor
+@Builder
 public class User {
     private Long id;
-    @Email(message = "Invalid email format.")
-    @NonNull
-    @NotBlank
+    @Email
     private String email;
     @NotBlank
-    @Pattern(regexp = "\\S*$")
+    @Pattern(regexp = "\\S*$")    // логин не содержит пробелов
     private String login;
+    private String name;
     @PastOrPresent
     private LocalDate birthday;
-    private String name;
-    private Set<Long> friends = new HashSet<>();
-
+    private Set<Long> friends;
 
     public User(Long id, String email, String login, String name, LocalDate birthday, Set<Long> friends) {
         this.id = id;
@@ -43,17 +42,10 @@ public class User {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(email, user.email) && Objects.equals(login, user.login) && Objects.equals(birthday, user.birthday) && Objects.equals(name, user.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, login, birthday, name);
+    public void setName(String name) {
+        if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
+            this.name = login;
+        }else this.name = name;
     }
 
     public Map<String, Object> toMap() {

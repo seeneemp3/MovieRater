@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 public class Movie {
 
@@ -25,7 +27,7 @@ public class Movie {
     private LocalDate releaseDate;
     @Positive
     private long duration;
-    private Set<Long> likes = new HashSet<>();
+    private Set<Long> likes;
     @NotNull
     private Mpa mpa;
     private Set<Genre> genres;
@@ -37,6 +39,9 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.likes = likes;
+        if (likes == null){
+            this.likes = new HashSet<>();
+        }
         this.mpa = mpa;
         this.genres = genres;
     }

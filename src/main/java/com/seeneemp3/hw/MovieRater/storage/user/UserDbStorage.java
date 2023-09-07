@@ -17,7 +17,6 @@ import java.util.Objects;
 @Primary
 @Component("userDbStorage")
 public class UserDbStorage implements UserStorage {
-    //TODO: пересмотреть метод валидейт чтобы возвращал юзера или пару юзер-юзер
     private final JdbcTemplate jdbcTemplate;
     private final UserMapper userMapper;
 
