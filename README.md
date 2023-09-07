@@ -8,7 +8,7 @@ MovieRater is a backend for a social network application that helps users choose
 - Maven
 - REST API
 - SLF4J (Simple Logging Facade for Java)
-- SQL (H2 Database)
+- SQL (JDBC, H2 Database)
 
 The application is developed using Spring Boot and built with Maven. It uses an H2 database to store essential entities such as users, movies, and genres.
 
