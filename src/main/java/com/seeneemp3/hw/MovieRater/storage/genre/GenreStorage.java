@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//TODO: add()??????
-
 @Component
 public class GenreStorage {
     private final JdbcTemplate jdbcTemplate;

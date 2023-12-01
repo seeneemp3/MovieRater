@@ -18,8 +18,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
-//TODO: notnull arguments validation
-
 @Component("movieDbStorage")
 @Slf4j
 public class MovieDbStorage implements MovieStorage {

@@ -77,7 +77,7 @@ class MovieRaterApplicationTests {
 		firstMovie.setMpa(new Mpa(1, "G"));
 		firstMovie.setLikes(new HashSet<>());
 		firstMovie.setGenres(new HashSet<>(Arrays.asList(new Genre(2, "Drama"),
-				new Genre(1, "Комедия"))));
+				new Genre(1, "Comedy"))));
 
 		secondMovie = Movie.builder()
 				.name("Avatar")
