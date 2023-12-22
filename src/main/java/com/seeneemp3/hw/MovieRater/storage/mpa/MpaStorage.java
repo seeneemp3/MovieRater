@@ -15,6 +15,7 @@ public class MpaStorage {
     private final JdbcTemplate jdbcTemplate;
 
     private final BeanPropertyRowMapper<Mpa> mpaMapper = new BeanPropertyRowMapper<>(Mpa.class);
+
     @Autowired
     public MpaStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -24,18 +25,14 @@ public class MpaStorage {
         return jdbcTemplate.query("SELECT * FROM ratings_mpa", mpaMapper);
     }
 
-    public Mpa getById(Integer id){
+    public Mpa getById(Integer id) {
         validate(id);
-       return jdbcTemplate.query("SELECT * FROM ratings_mpa WHERE id = ?", mpaMapper, id)
-                .stream()
-                .findAny()
-                .orElseThrow(() -> new MpaNotFoundException("Rating with ID=" + id + " not found!"));
+        return jdbcTemplate.query("SELECT * FROM ratings_mpa WHERE id = ?", mpaMapper, id)
+                .stream().findAny().orElseThrow(() -> new MpaNotFoundException("Rating with ID=" + id + " not found!"));
     }
 
 
-
-
-    private <T extends Number> void validate(T id){
+    private <T extends Number> void validate(T id) {
         if (id == null) {
             throw new ValidationException("Empty argument passed!");
         }

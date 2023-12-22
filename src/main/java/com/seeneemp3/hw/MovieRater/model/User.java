@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 
-
 @Data
 @Builder
 public class User {
@@ -44,7 +43,7 @@ public class User {
     public void setName(String name) {
         if ((name == null) || (name.isEmpty()) || (name.isBlank())) {
             this.name = login;
-        }else this.name = name;
+        } else this.name = name;
     }
 
     public Map<String, Object> toMap() {
